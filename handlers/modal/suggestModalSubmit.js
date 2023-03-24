@@ -30,7 +30,7 @@ exports.run = async (client, interaction, options) => {
 
     let replyEmbed = new EmbedBuilder()
         .setTitle(`Successfully Created Suggestion!`)
-        .setColor("0x5376e0")
+        .setColor(0x5376e0)
 
 
     if (asset.length > 0) {
@@ -68,7 +68,7 @@ exports.run = async (client, interaction, options) => {
         })
         .setTitle(`***${title}***`)
         .setDescription(`\`\`\`Reason:\n${reason}\`\`\`${extra}\nTo join the discussion, check out the thread below :arrow_down:`)
-        .setColor("0x5376e0")
+        .setColor(0x5376e0)
         .setImage(image)
         .setTimestamp()
         .setFooter({
@@ -80,8 +80,10 @@ exports.run = async (client, interaction, options) => {
         embeds: [suggestionEmbed]
     })
 
+    let suggestionThreadTitle = `Suggestion - ${title}`.substring(0, 95)
+
     await suggestionMessage.startThread({
-        name: `Suggestion - ${title}`,
+        name: `suggestionThreadTitle`,
         autoArchiveDuration: 10080,
     })
 
