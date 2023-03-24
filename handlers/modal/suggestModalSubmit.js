@@ -83,7 +83,7 @@ exports.run = async (client, interaction, options) => {
     let suggestionThreadTitle = `Suggestion - ${title}`.substring(0, 95)
 
     await suggestionMessage.startThread({
-        name: `suggestionThreadTitle`,
+        name: suggestionThreadTitle,
         autoArchiveDuration: 10080,
     })
 
