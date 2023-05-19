@@ -61,7 +61,7 @@ exports.run = async (client, interaction, options) => {
 
     let suggestionEmbed = new EmbedBuilder()
         .setAuthor({
-            name: `${interaction.user.tag} Suggested:`,
+            name: `${interaction.member.nickname} Suggested:`,
             iconURL: interaction.user.avatarURL({
                 forceStatic: false
             })
@@ -72,7 +72,7 @@ exports.run = async (client, interaction, options) => {
         .setImage(image)
         .setTimestamp()
         .setFooter({
-            text: `/suggest`,
+            text: `/suggest | User ID: ${interaction.user.id}`,
             iconURL: client.user.avatarURL()
         })
 
