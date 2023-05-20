@@ -6,13 +6,11 @@ const client = new Discord.Client({
     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
 });
 
-require('./utils/registerSlash')(client);
 
-require("dotenv").config()
+require("dotenv").config();
 
-client.slash = new Discord.Collection();
-client.context = new Discord.Collection();
-client.component = new Discord.Collection();
+client.commands = new Discord.Collection();
+client.components = new Discord.Collection();
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
@@ -37,7 +35,7 @@ fs.readdir("./handlers/slash/", (err, files) => {
     files.forEach(f => {
         let slashName = f.split(".")[0];
         let pull = require(`./handlers/slash/${slashName}`);
-        client.slash.set(slashName, pull);
+        client.commands.set(slashName, pull);
     });
 });
 
@@ -46,7 +44,7 @@ fs.readdir("./handlers/component/", (err, files) => {
     files.forEach(f => {
         let componentName = f.split(".")[0];
         let pull = require(`./handlers/component/${componentName}`);
-        client.component.set(componentName, pull);
+        client.components.set(componentName, pull);
     });
 });
 
@@ -55,9 +53,11 @@ fs.readdir("./handlers/context/", (err, files) => {
     files.forEach(f => {
         let contextName = f.split(".")[0];
         let pull = require(`./handlers/context/${contextName}`);
-        client.context.set(contextName, pull);
+        client.commands.set(contextName, pull);
     });
 });
+
+require('./utils/registerCommands')(client);
 
 
 client.login(process.env.TOKEN);

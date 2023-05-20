@@ -6,10 +6,9 @@ const {
 } = require('discord.js');
 
 
-// exports = {
-//     data: new SlashCommandBuilder()
-//         .setName("suggest")
-//         .setDescription("Make a server suggestion"),
+exports.data = new SlashCommandBuilder()
+    .setName("suggest")
+    .setDescription("Make a server suggestion");
 
 exports.run = async (client, interaction, options) => {
 
@@ -61,4 +60,4 @@ exports.run = async (client, interaction, options) => {
 
 
     await interaction.showModal(modal);
-}
+};
