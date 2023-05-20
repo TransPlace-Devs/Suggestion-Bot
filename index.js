@@ -2,8 +2,8 @@ const fs = require("fs");
 const Discord = require('discord.js');
 
 const client = new Discord.Client({
-	intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'GuildMessageReactions'],
-	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+    intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'GuildMessageReactions'],
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
 });
 
 require('./utils/registerSlash')(client);
@@ -11,7 +11,8 @@ require('./utils/registerSlash')(client);
 require("dotenv").config()
 
 client.slash = new Discord.Collection();
-client.modal = new Discord.Collection();
+client.context = new Discord.Collection();
+client.component = new Discord.Collection();
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
@@ -40,13 +41,23 @@ fs.readdir("./handlers/slash/", (err, files) => {
     });
 });
 
-fs.readdir("./handlers/modal/", (err, files) => {
+fs.readdir("./handlers/component/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(f => {
-        let slashName = f.split(".")[0];
-        let pull = require(`./handlers/modal/${slashName}`);
-        client.modal.set(slashName, pull);
+        let componentName = f.split(".")[0];
+        let pull = require(`./handlers/component/${componentName}`);
+        client.component.set(componentName, pull);
     });
 });
+
+fs.readdir("./handlers/context/", (err, files) => {
+    if (err) return console.error(err);
+    files.forEach(f => {
+        let contextName = f.split(".")[0];
+        let pull = require(`./handlers/context/${contextName}`);
+        client.context.set(contextName, pull);
+    });
+});
+
 
 client.login(process.env.TOKEN);
