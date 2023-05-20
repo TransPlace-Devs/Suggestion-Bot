@@ -59,7 +59,7 @@ exports.run = async (client, interaction, options) => {
 
     let suggestionEmbed = new EmbedBuilder()
         .setAuthor({
-            name: `${interaction.member.nickname} Suggested:`,
+            name: `${interaction.member.displayName} Suggested:`,
             iconURL: interaction.user.avatarURL({
                 forceStatic: false
             })
