@@ -11,6 +11,7 @@ require("dotenv").config();
 
 client.commands = new Discord.Collection();
 client.components = new Discord.Collection();
+client.cache = new Discord.Collection(); // Dunno if this exists already; I don't think it does
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
@@ -33,8 +34,8 @@ fs.readdir("./events/", (err, files) => {
 fs.readdir("./handlers/slash/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(f => {
-        let slashName = f.split(".")[0];
-        let pull = require(`./handlers/slash/${slashName}`);
+        let pull = require(`./handlers/slash/${f}`);
+        let slashName = pull.data.name;
         client.commands.set(slashName, pull);
     });
 });
@@ -43,7 +44,7 @@ fs.readdir("./handlers/component/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(f => {
         let componentName = f.split(".")[0];
-        let pull = require(`./handlers/component/${componentName}`);
+        let pull = require(`./handlers/component/${f}`);
         client.components.set(componentName, pull);
     });
 });
@@ -51,9 +52,11 @@ fs.readdir("./handlers/component/", (err, files) => {
 fs.readdir("./handlers/context/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(f => {
-        let contextName = f.split(".")[0];
-        let pull = require(`./handlers/context/${contextName}`);
+        let pull = require(`./handlers/context/${f}`);
+        let contextName = pull.data.name;
+
         client.commands.set(contextName, pull);
+        console.log(contextName)
     });
 });
 
