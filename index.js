@@ -2,16 +2,16 @@ const fs = require("fs");
 const Discord = require('discord.js');
 
 const client = new Discord.Client({
-	intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'GuildMessageReactions'],
-	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+    intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'GuildMessageReactions'],
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
 });
 
-require('./utils/registerSlash')(client);
 
-require("dotenv").config()
+require("dotenv").config();
 
-client.slash = new Discord.Collection();
-client.modal = new Discord.Collection();
+client.commands = new Discord.Collection();
+client.components = new Discord.Collection();
+client.cache = new Discord.Collection(); // Dunno if this exists already; I don't think it does
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
@@ -34,19 +34,32 @@ fs.readdir("./events/", (err, files) => {
 fs.readdir("./handlers/slash/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(f => {
-        let slashName = f.split(".")[0];
-        let pull = require(`./handlers/slash/${slashName}`);
-        client.slash.set(slashName, pull);
+        let pull = require(`./handlers/slash/${f}`);
+        let slashName = pull.data.name;
+        client.commands.set(slashName, pull);
     });
 });
 
-fs.readdir("./handlers/modal/", (err, files) => {
+fs.readdir("./handlers/component/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(f => {
-        let slashName = f.split(".")[0];
-        let pull = require(`./handlers/modal/${slashName}`);
-        client.modal.set(slashName, pull);
+        let componentName = f.split(".")[0];
+        let pull = require(`./handlers/component/${f}`);
+        client.components.set(componentName, pull);
     });
 });
+
+fs.readdir("./handlers/context/", (err, files) => {
+    if (err) return console.error(err);
+    files.forEach(f => {
+        let pull = require(`./handlers/context/${f}`);
+        let contextName = pull.data.name;
+
+        client.commands.set(contextName, pull);
+    });
+});
+
+require('./utils/registerCommands')(client);
+
 
 client.login(process.env.TOKEN);
