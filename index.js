@@ -56,7 +56,6 @@ fs.readdir("./handlers/context/", (err, files) => {
         let contextName = pull.data.name;
 
         client.commands.set(contextName, pull);
-        console.log(contextName)
     });
 });
 

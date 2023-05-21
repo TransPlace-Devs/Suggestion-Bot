@@ -36,8 +36,6 @@ exports.run = async (client, interaction) => {
 
     client.cache.set("suggestionMessage", interaction.targetMessage);
 
-    console.log(selectMenuComponent.toJSON());
-
     interaction.reply({
         "content": "Select the status you want to add for this message",
         "ephemeral": true,

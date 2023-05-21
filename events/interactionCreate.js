@@ -26,7 +26,7 @@ module.exports = async (client, interaction) => {
         const selectMenuId = interaction.customId;
         const selected = interaction.values;
         const selectMenu = client.components.get(selectMenuId);
-        console.log(selected)
+
         if (!selectMenu) return;
         else selectMenu.run(client, interaction, selected);
     }

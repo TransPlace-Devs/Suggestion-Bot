@@ -2,11 +2,15 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     EmbedBuilder,
-    Message,
+    ButtonStyle,
 } = require('discord.js');
 
+const {
+    parseOldEmbed,
+} = require('../../utils/parseOldEmbed.js');
+
 exports.run = async (client, interaction, values) => {
-    suggestionMessage = client.cache.get("suggestionMessage");
+    const suggestionMessage = client.cache.get("suggestionMessage");
 
     const suggestionStatuses = {
         "denied": "\`\`\`🔴 Denied\`\`\`",
@@ -14,9 +18,16 @@ exports.run = async (client, interaction, values) => {
         "implemented": "\`\`\`🟢 Implemented\`\`\`",
     };
 
-    suggestionEmbed = new EmbedBuilder(suggestionMessage.embeds[0]);
+    let suggestionEmbed;
 
-    suggestionFields = suggestionMessage.embeds[0].data.fields;
+    if (suggestionMessage.embeds[0].fields?.length > 0) {
+        suggestionEmbed = new EmbedBuilder(suggestionMessage.embeds[0]);
+    } else {
+        suggestionEmbed = await parseOldEmbed(interaction.guild, suggestionMessage.embeds[0]);
+    }
+
+
+    let suggestionFields = suggestionEmbed.data.fields;
 
     if (Object.values(suggestionStatuses).includes(suggestionFields.at(-2).value)) {
         suggestionFields.splice(-2, 1, { name: "Status", value: suggestionStatuses[values[0]] });
@@ -26,9 +37,27 @@ exports.run = async (client, interaction, values) => {
 
     suggestionEmbed.setFields(suggestionFields);
 
-    await suggestionMessage.edit({ "embeds": [suggestionEmbed.toJSON()] })
-        .then(_ =>
-            interaction.reply({ "content": "coolio", "ephemeral": true })
-        )
-        .catch(console.error);
+    await suggestionMessage.edit({ "embeds": [suggestionEmbed.toJSON()] });
+
+
+    const replyEmbed = new EmbedBuilder()
+        .setTitle("Succes!")
+        .setDescription("Good job my code didn't break <3")
+        .setColor(0x4e2f57);
+
+    const replyEmbedRow = new ActionRowBuilder();
+
+    replyEmbedRow.addComponents([
+        (new ButtonBuilder()
+            .setLabel("Jump to Suggestion")
+            .setURL(suggestionMessage.url)
+            .setStyle(ButtonStyle.Link))
+    ]);
+
+    return interaction.reply({
+        embeds: [replyEmbed],
+        components: [replyEmbedRow],
+        ephemeral: true,
+    });
+
 };
