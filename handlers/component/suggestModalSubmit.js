@@ -2,6 +2,7 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     EmbedBuilder,
+    ButtonStyle,
 } = require('discord.js');
 
 exports.run = async (client, interaction, options) => {
@@ -60,7 +61,7 @@ exports.run = async (client, interaction, options) => {
     let suggestionEmbed = new EmbedBuilder()
         .setAuthor({
             name: `${interaction.member.displayName} Suggested:`,
-            iconURL: interaction.user.avatarURL({
+            iconURL: interaction.user.displayAvatarURL({
                 forceStatic: false
             })
         })
@@ -118,7 +119,7 @@ exports.run = async (client, interaction, options) => {
         (new ButtonBuilder()
             .setLabel("Jump to Suggestion")
             .setURL(suggestionURL)
-            .setStyle(5))
+            .setStyle(ButtonStyle.Link))
     ]);
 
     return interaction.reply({

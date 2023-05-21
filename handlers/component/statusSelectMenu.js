@@ -13,7 +13,7 @@ exports.run = async (client, interaction, values) => {
         "in progress": "\`\`\`🟡 In Progress\`\`\`",
         "implemented": "\`\`\`🟢 Implemented\`\`\`",
     };
-    console.log(typeof(suggestionStatuses))
+
     suggestionEmbed = new EmbedBuilder(suggestionMessage.embeds[0]);
 
     suggestionFields = suggestionMessage.embeds[0].data.fields;
