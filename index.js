@@ -1,6 +1,8 @@
 const fs = require("fs");
 const Discord = require('discord.js');
 
+const config = require("./config.js");
+
 const client = new Discord.Client({
     intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'GuildMessageReactions'],
     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
@@ -12,6 +14,7 @@ require("dotenv").config();
 client.commands = new Discord.Collection();
 client.components = new Discord.Collection();
 client.cache = new Discord.Collection(); // Dunno if this exists already; I don't think it does
+client.config = config;
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
