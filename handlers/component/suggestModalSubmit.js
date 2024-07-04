@@ -49,7 +49,7 @@ exports.run = async (client, interaction, options) => {
     }
 
 
-    const suggestionChannel = interaction.guild.channels.cache.get(process.env.SUGGESTION_CHANNEL);
+    const suggestionChannel = interaction.guild.channels.cache.get(client.config[interaction.guild.id].suggestion_channel);
 
     if (!suggestionChannel) {
         return interaction.reply({
@@ -97,12 +97,6 @@ exports.run = async (client, interaction, options) => {
         name: suggestionThreadTitle,
         autoArchiveDuration: 10080,
     });
-
-    // await suggestionMessage.react(interaction.guild.emojis.cache.get(process.env.UPVOTE))
-    //     .catch(console.error);
-
-    // await suggestionMessage.react(interaction.guild.emojis.cache.get(process.env.DOWNVOTE))
-    //     .catch(console.error);
 
     await suggestionMessage.react("⬆️")
         .catch(console.error);

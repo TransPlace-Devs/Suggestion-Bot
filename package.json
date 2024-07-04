@@ -1,7 +1,7 @@
 {
-  "name": "transplace-suggestions",
+  "name": "transgg-suggestions",
   "version": "1.1.0",
-  "description": "A bot to handle server suggestions on TransPlace",
+  "description": "A bot to handle server suggestions on TransGG servers",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
