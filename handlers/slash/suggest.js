@@ -14,7 +14,7 @@ exports.run = async (client, interaction, options) => {
 
     if (interaction.member.roles.cache.has(client.config[interaction.guild.id].suggestion_ban_role)) {
         return interaction.reply({
-            content: "You are banned from making suggestions.",
+            content: "You have been banned from making suggestions. Please open a staff ticket if you believe this is a mistake.",
             ephemeral: true,
         });
     }
