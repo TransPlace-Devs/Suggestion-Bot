@@ -12,6 +12,13 @@ exports.data = new SlashCommandBuilder()
 
 exports.run = async (client, interaction, options) => {
 
+    if (interaction.member.roles.cache.has(client.config[interaction.guild.id].suggestion_ban_role)) {
+        return interaction.reply({
+            content: "You are banned from making suggestions.",
+            ephemeral: true,
+        });
+    }
+
     const modal = new ModalBuilder()
         .setCustomId("suggestModalSubmit")
         .setTitle(`Create a Suggestion!`)
