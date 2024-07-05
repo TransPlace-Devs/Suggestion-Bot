@@ -6,6 +6,7 @@ const {
 } = require('discord.js');
 
 exports.run = async (client, interaction, options) => {
+    await interaction.deferUpdate();
 
     function escapeMarkdown(text) {
         var unescaped = text.replace(/\\(\*|_|`|~|\\)/g, '$1'); // unescape any "backslashed" character
@@ -39,7 +40,7 @@ exports.run = async (client, interaction, options) => {
         else {
             replyEmbed.setTitle("Attachment URL Invalid:\n***Must Be a valid imgur URL***");
             // replyEmbed.setDescription(`Make sure the image is one of the following: png/jpg/jpeg/apng/gif.\nCheck that the url is formatted like: (https://i.imgur.com/image.png)\n\nIf you have a URL like (https://imgur.com/a/image):\nRight click the image on imgur and click \"Open image in New Tab\" and copy the url it opens it\n\n(It then should look like the https://i.imgur.com/\n\n\`\`\`Suggestion:\n${title}\`\`\`\`\`\`Reason:\n${reason}\`\`\`${extra}${extraImage})`)
-            return interaction.reply({
+            return interaction.editReply({
                 content: "Failed to send suggestion. (Attached is attempted values.)",
                 embeds: [replyEmbed],
                 ephemeral: true,
@@ -52,7 +53,7 @@ exports.run = async (client, interaction, options) => {
     const suggestionChannel = interaction.guild.channels.cache.get(client.config[interaction.guild.id].suggestion_channel);
 
     if (!suggestionChannel) {
-        return interaction.reply({
+        return interaction.editReply({
             content: "Unable to find suggestions channel, this should not occur, please notify server staff of this issue.",
             ephemeral: true,
         });
@@ -116,7 +117,7 @@ exports.run = async (client, interaction, options) => {
             .setStyle(ButtonStyle.Link))
     ]);
 
-    return interaction.reply({
+    return interaction.editReply({
         embeds: [replyEmbed],
         components: [replyEmbedRow],
         ephemeral: true,

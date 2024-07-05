@@ -29,5 +29,11 @@ module.exports = async (client, interaction) => {
 
         if (!selectMenu) return;
         else selectMenu.run(client, interaction, selected);
+    } else if (interaction.isButton()) {
+        const buttonId = interaction.customId;
+        const button = client.components.get(buttonId);
+
+        if (!button) return;
+        else button.run(client, interaction, null);
     }
 };
