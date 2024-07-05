@@ -19,6 +19,7 @@ exports.data = new ContextMenuCommandBuilder()
     .setDefaultMemberPermissions("0");
 
 exports.run = async (client, interaction) => {
+    await interaction.deferReply({ephemeral: true});
     const suggestionMessage = interaction.targetMessage;
     const suggestionEmbed = suggestionMessage.embeds[0];
 
@@ -41,7 +42,7 @@ exports.run = async (client, interaction) => {
             .setStyle(ButtonStyle.Link))
     ]);
 
-    return interaction.reply({
+    return interaction.followUp({
         embeds: [replyEmbed],
         components: [replyEmbedRow],
         ephemeral: true,
