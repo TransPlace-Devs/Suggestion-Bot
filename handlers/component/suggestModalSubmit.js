@@ -34,8 +34,8 @@ exports.run = async (client, interaction, options) => {
 
 
     if (asset.length > 0) {
-        extraImage = `\`\`\`Image/Gif Asset:\n${asset}\`\`\``;
-        replyEmbed.setDescription(`\`\`\`Suggestion:\n${title}\`\`\`\`\`\`Reason:\n${reason}\`\`\`${extra}${extraImage}`);
+        extraImage = `Image/Gif Asset:\n${asset}`;
+        replyEmbed.setDescription(`Suggestion:\n> ${title}\nReason:\n> ${reason}\n${extra}\n${extraImage}`);
         if (isImgur(asset)) image = asset;
         else {
             replyEmbed.setTitle("Attachment URL Invalid:\n***Must Be a valid imgur URL***");
@@ -77,13 +77,13 @@ exports.run = async (client, interaction, options) => {
 
     if (info.length > 0) {
         suggestionEmbed.addFields([
-            { name: "Reason:", value: `\`\`\`${reason}\`\`\`` },
-            { name: "Extra Info", value: `\`\`\`${info}\`\`\`` },
+            { name: "Reason:", value: `> ${reason}` },
+            { name: "Extra Info", value: `> ${info}` },
             { name: "Join the Discussion!", value: "Check out the thread below :arrow_down:" },
         ]);
     } else {
         suggestionEmbed.addFields([
-            { name: "Reason:", value: `\`\`\`${reason}\`\`\`` },
+            { name: "Reason:", value: `> ${reason}` },
             { name: "Join the Discussion!", value: "Check out the thread below :arrow_down:" },
         ]);
     }

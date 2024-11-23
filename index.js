@@ -13,7 +13,6 @@ require("dotenv").config();
 
 client.commands = new Discord.Collection();
 client.components = new Discord.Collection();
-client.cache = new Discord.Collection(); // Dunno if this exists already; I don't think it does
 client.config = config;
 
 process.on('unhandledRejection', error => {
